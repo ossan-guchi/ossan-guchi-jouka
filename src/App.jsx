@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, ShieldCheck, MessageCircle, RefreshCcw, Send, Wind, Lock, Sparkles } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 function Card({ className = "", children }) {
   return <div className={className}>{children}</div>;
 }
@@ -78,7 +79,9 @@ export default function OssanGuchiJoukaApp() {
   }, [savedGuchi, text, mode]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-stone-950 via-zinc-900 to-orange-950 p-4 md:p-8 text-stone-100">
+    <>
+      <Analytics />
+      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-stone-950 via-zinc-900 to-orange-950 p-4 md:p-8 text-stone-100">
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.45),transparent_35%),radial-gradient(circle_at_bottom,rgba(120,53,15,0.5),transparent_45%)]" />
 
       <AnimatePresence>
@@ -266,6 +269,7 @@ export default function OssanGuchiJoukaApp() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
