@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, ShieldCheck, MessageCircle, RefreshCcw, Send, Wind, Lock, Sparkles } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 function Card({ className = "", children }) {
   return <div className={className}>{children}</div>;
 }
@@ -265,6 +266,7 @@ export default function OssanGuchiJoukaApp() {
           </motion.button>
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }
