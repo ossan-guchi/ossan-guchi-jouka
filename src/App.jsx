@@ -1,4 +1,3 @@
-```jsx
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,8 +10,6 @@ import {
   Lock,
   Sparkles,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 export default function OssanGuchiJoukaApp() {
   const [text, setText] = useState("");
@@ -117,6 +114,15 @@ export default function OssanGuchiJoukaApp() {
     return { empathy: empathyMap[mode], summary, advice, cleanse };
   }, [savedGuchi, text, mode]);
 
+  const modeButtonClass = (targetMode) => {
+    return (
+      "rounded-xl px-4 py-3 text-sm font-medium transition " +
+      (mode === targetMode
+        ? "bg-orange-500/25 ring-2 ring-orange-300/40"
+        : "bg-stone-800 hover:bg-stone-700")
+    );
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-stone-950 via-zinc-900 to-orange-950 p-4 md:p-8 text-stone-100">
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.45),transparent_35%),radial-gradient(circle_at_bottom,rgba(120,53,15,0.5),transparent_45%)]" />
@@ -156,9 +162,9 @@ export default function OssanGuchiJoukaApp() {
                   }}
                   className="absolute bottom-0 rounded-full bg-gradient-to-t from-red-600 via-orange-400 to-yellow-200 blur-[1px]"
                   style={{
-                    left: `${8 + (i * 3.7) % 86}%`,
-                    width: `${28 + (i % 4) * 14}px`,
-                    height: `${90 + (i % 5) * 35}px`,
+                    left: String(8 + (i * 3.7) % 86) + "%",
+                    width: String(28 + (i % 4) * 14) + "px",
+                    height: String(90 + (i % 5) * 35) + "px",
                   }}
                 />
               ))}
@@ -166,7 +172,7 @@ export default function OssanGuchiJoukaApp() {
 
             {[...Array(18)].map((_, i) => (
               <motion.span
-                key={`ash-${i}`}
+                key={"ash-" + i}
                 initial={{ opacity: 0, y: 120, x: (i % 6) * 70 - 210 }}
                 animate={{
                   opacity: [0, 1, 0],
@@ -222,31 +228,19 @@ export default function OssanGuchiJoukaApp() {
             <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
               <button
                 onClick={() => setMode("hardworking")}
-                className={`rounded-xl px-4 py-3 text-sm font-medium transition ${
-                  mode === "hardworking"
-                    ? "bg-orange-500/25 ring-2 ring-orange-300/40"
-                    : "bg-stone-800 hover:bg-stone-700"
-                }`}
+                className={modeButtonClass("hardworking")}
               >
                 仕事疲れモード
               </button>
               <button
                 onClick={() => setMode("boss")}
-                className={`rounded-xl px-4 py-3 text-sm font-medium transition ${
-                  mode === "boss"
-                    ? "bg-orange-500/25 ring-2 ring-orange-300/40"
-                    : "bg-stone-800 hover:bg-stone-700"
-                }`}
+                className={modeButtonClass("boss")}
               >
                 上司・職場モード
               </button>
               <button
                 onClick={() => setMode("family")}
-                className={`rounded-xl px-4 py-3 text-sm font-medium transition ${
-                  mode === "family"
-                    ? "bg-orange-500/25 ring-2 ring-orange-300/40"
-                    : "bg-stone-800 hover:bg-stone-700"
-                }`}
+                className={modeButtonClass("family")}
               >
                 家庭・人生モード
               </button>
@@ -405,24 +399,53 @@ export default function OssanGuchiJoukaApp() {
   );
 }
 
-function ResponseCard({ icon, title, text, highlight = false }) {
+
+function Card({ className = "", children }) {
+  return <div className={className}>{children}</div>;
+}
+
+function CardContent({ className = "", children }) {
+  return <div className={className}>{children}</div>;
+}
+
+function Button({
+  className = "",
+  children,
+  onClick,
+  disabled = false,
+  variant = "default",
+}) {
+  const baseClass =
+    "inline-flex items-center justify-center font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ";
   return (
-    <Card
-      className={`rounded-2xl border-orange-200/10 shadow-lg ${
-        highlight ? "bg-orange-950/70" : "bg-stone-900/80"
-      }`}
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={baseClass + className}
     >
+      {children}
+    </button>
+  );
+}
+
+
+function ResponseCard({ icon, title, text, highlight = false }) {
+  const cardClass =
+    "rounded-2xl border-orange-200/10 shadow-lg " +
+    (highlight ? "bg-orange-950/70" : "bg-stone-900/80");
+
+  const iconClass =
+    "rounded-2xl p-2 " +
+    (highlight
+      ? "bg-orange-500/20 text-orange-200"
+      : "bg-stone-800 text-orange-300");
+
+  return (
+    <Card className={cardClass}>
       <CardContent className="p-5">
         <div className="flex items-start gap-3">
-          <div
-            className={`rounded-2xl p-2 ${
-              highlight
-                ? "bg-orange-500/20 text-orange-200"
-                : "bg-stone-800 text-orange-300"
-            }`}
-          >
-            {icon}
-          </div>
+          <div className={iconClass}>{icon}</div>
           <div>
             <h2 className="mb-1 font-bold text-stone-100">{title}</h2>
             <p className="leading-7 text-stone-300">{text}</p>
@@ -450,6 +473,3 @@ function SecurityCard({ icon, title, text }) {
     </Card>
   );
 }
-```
-
-
